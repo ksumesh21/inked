@@ -1,3 +1,4 @@
+import argparse
 from typing import Any, Union
 from PIL import Image, ImageDraw, ImageFont
 
