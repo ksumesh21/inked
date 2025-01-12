@@ -2,14 +2,14 @@ from setuptools import setup, find_packages
 
 setup(
     name="inked",
-    version="0.1.0",
+    version="0.1.3",
     packages=find_packages(),
     install_requires=[
         "Pillow>=8.0.0"
     ],
     entry_points={
         "console_scripts": [
-            "add-watermark = inked.watermark:add_watermark",
+            "add-watermark = inked.watermark:main",
         ],
     },
     author="Sumesh.K",
