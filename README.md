@@ -73,10 +73,10 @@ add-watermark landscape.jpg landscape_watermarked.jpg watermark.png --position 1
 
 Adds watermark.png to the coordinates (100, 100) on landscape.jpg with opacity 128, and saves it as landscape_watermarked.jpg.
 
-# Programmatic Usage (Python API)
+## Programmatic Usage (Python API)
 You can also use the package programmatically within a Python script.
 
-## Example: Add an Image Watermark Programmatically
+### Example: Add an Image Watermark Programmatically
 
 ``` python
 from inked import add_watermark
@@ -92,7 +92,7 @@ add_watermark(input_image, output_image, watermark_image, position=position, opa
 
 ```
 
-## Example: Add a Text Watermark Programmatically
+### Example: Add a Text Watermark Programmatically
 
 ``` python
 from inked import add_watermark
