@@ -9,11 +9,11 @@ Functions:
     Parses command-line arguments and calls the add_watermark function with the parsed arguments.
 """
 import argparse
-from typing import Union
+from typing import Union, Tuple
 from PIL import Image, ImageDraw, ImageFont
 
-def get_predefined_position(image_size: tuple[int, int], watermark_size: tuple[int, int],
-                            position: str) -> tuple[int, int]:
+def get_predefined_position(image_size: Tuple[int, int], watermark_size: Tuple[int, int],
+                            position: str) -> Tuple[int, int]:
     """
     Calculates the position of the watermark based on predefined positions.
     
@@ -36,7 +36,7 @@ def add_watermark(
     input_image_path: str,
     output_image_path: str,
     watermark_data: str,
-    position: Union[str, tuple[int, int]] = "bottom-right",
+    position: Union[str, Tuple[int, int]] = "bottom-right",
     watermark_type: str = "image",
     font_size: int = 30,
     opacity: int = 128
@@ -76,7 +76,7 @@ def add_watermark(
         print(f"Value error: {e}")
 
 def add_image_watermark(image: Image.Image, watermark_data: str,
-                        position: Union[str, tuple[int, int]], opacity: int) -> Image.Image:
+                        position: Union[str, Tuple[int, int]], opacity: int) -> Image.Image:
     """
     Adds an image watermark to the given image.
 
