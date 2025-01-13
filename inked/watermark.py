@@ -1,8 +1,18 @@
+"""
+This module provides functionality to add watermarks (either text or image) to images.
+Functions:
+    get_predefined_position(image_size: tuple[int, int], watermark_size: tuple[int, int],
+    position: str) -> tuple[int, int]: add_watermark(input_image_path: str,
+    output_image_path: str, watermark_data: str, position: Union[str,
+    tuple[int, int]] = "bottom-right", watermark_type: str = "image",
+    font_size: int = 30, opacity: int = 128) -> None:main() -> None:
+    Parses command-line arguments and calls the add_watermark function with the parsed arguments.
+"""
 import argparse
 from typing import Union
 from PIL import Image, ImageDraw, ImageFont
 
-def get_predefined_position(image_size: tuple[int, int], watermark_size: tuple[int, int], 
+def get_predefined_position(image_size: tuple[int, int], watermark_size: tuple[int, int],
                             position: str) -> tuple[int, int]:
     """
     Calculates the position of the watermark based on predefined positions.
@@ -20,8 +30,7 @@ def get_predefined_position(image_size: tuple[int, int], watermark_size: tuple[i
         return image_width - watermark_width - 10, image_height - watermark_height - 10
     if position == "top-left":
         return 10, 10
-    else:
-        raise ValueError("Invalid predefined position. Use 'center', 'bottom-right', or 'top-left'.")
+    raise ValueError("Invalid predefined position. Use 'center', 'bottom-right', or 'top-left'.")
 
 def add_watermark(
     input_image_path: str,
@@ -38,7 +47,8 @@ def add_watermark(
     :param input_image_path: Path to the input image.
     :param output_image_path: Path to save the output image with watermark.
     :param watermark_data: Path to the watermark image or the text for watermarking.
-    :param position: Position for the watermark ('top-left', 'center', 'bottom-right' or custom (x, y)).
+    :param position: Position for the watermark ('top-left', 'center', 'bottom-right'
+      or custom (x, y)).
     :param watermark_type: Type of watermark ('image' or 'text').
     :param font_size: Font size for text watermark.
     :param opacity: Opacity of the watermark (0 to 255).
@@ -102,29 +112,54 @@ def add_watermark(
         image.save(output_image_path, "PNG")
         print(f"Watermarked image saved to {output_image_path}")
 
+    except FileNotFoundError as e:
+        print(f"File not found: {e}")
+    except IOError as e:
+        print(f"IO error: {e}")
+    except ValueError as e:
+        print(f"Value error: {e}")
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An unexpected error occurred: {e}")
 
 
 def main():
+    """
+    Main function to add a watermark (text or image) to an image.
+    This function sets up the argument parser to handle command-line arguments
+    and calls the add_watermark function with the parsed arguments.
+    Command-line arguments:
+    - input_image (str): Path to the input image.
+    - output_image (str): Path to save the output image with the watermark.
+    - watermark_data (str): Path to the watermark image or the text for watermarking.
+    - --position (str, optional): Position of the watermark. Choices are "top-left", 
+    "center", "bottom-right".
+        Default is "bottom-right".
+    - --watermark_type (str, optional): Type of watermark. Choices are "image" or "text".
+      Default is "image".
+    - --font_size (int, optional): Font size for text watermark. Default is 30.
+    - --opacity (int, optional): Opacity for the watermark. Range is 0 to 255.
+      Default is 128.
+    """
+
     # Set up the argument parser
     parser = argparse.ArgumentParser(description="Add a watermark (text or image) to an image.")
-    
     # Define command-line arguments
     parser.add_argument("input_image", help="Path to the input image.")
-    parser.add_argument("output_image", help="Path to save the output image with the watermark.")
-    parser.add_argument("watermark_data", help="Path to the watermark image or the text for watermarking.")
-    parser.add_argument("--position", default="bottom-right", choices=["top-left", "center", "bottom-right"],
+    parser.add_argument("output_image",
+                         help="Path to save the output image with the watermark.")
+    parser.add_argument("watermark_data",
+                        help="Path to the watermark image or the text for watermarking.")
+    parser.add_argument("--position", default="bottom-right",
+                         choices=["top-left", "center", "bottom-right"],
                         help="Position of the watermark (default: bottom-right).")
     parser.add_argument("--watermark_type", default="image", choices=["image", "text"],
                         help="Type of watermark: 'image' or 'text' (default: image).")
-    parser.add_argument("--font_size", type=int, default=30, help="Font size for text watermark (default: 30).")
+    parser.add_argument("--font_size", type=int, default=30,
+                        help="Font size for text watermark (default: 30).")
     parser.add_argument("--opacity", type=int, default=128, choices=range(0, 256),
                         help="Opacity for the watermark (default: 128).")
-    
     # Parse the arguments
     args = parser.parse_args()
-    
     # Call the add_watermark function with the parsed arguments
     add_watermark(
         input_image_path=args.input_image,
@@ -138,4 +173,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
