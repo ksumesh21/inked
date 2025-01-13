@@ -1,8 +1,9 @@
 import argparse
-from typing import Any, Union
+from typing import Union
 from PIL import Image, ImageDraw, ImageFont
 
-def get_predefined_position(image_size: tuple[int, int], watermark_size: tuple[int, int], position: str) -> tuple[int, int]:
+def get_predefined_position(image_size: tuple[int, int], watermark_size: tuple[int, int], 
+                            position: str) -> tuple[int, int]:
     """
     Calculates the position of the watermark based on predefined positions.
     
@@ -13,12 +14,11 @@ def get_predefined_position(image_size: tuple[int, int], watermark_size: tuple[i
     """
     image_width, image_height = image_size
     watermark_width, watermark_height = watermark_size
-    
     if position == "center":
         return (image_width - watermark_width) // 2, (image_height - watermark_height) // 2
-    elif position == "bottom-right":
+    if position == "bottom-right":
         return image_width - watermark_width - 10, image_height - watermark_height - 10
-    elif position == "top-left":
+    if position == "top-left":
         return 10, 10
     else:
         raise ValueError("Invalid predefined position. Use 'center', 'bottom-right', or 'top-left'.")
@@ -46,7 +46,7 @@ def add_watermark(
     try:
         # Open the image
         image = Image.open(input_image_path).convert("RGBA")
-        image_width, image_height = image.size
+        image_width, _ = image.size
 
         # Handle image watermark
         if watermark_type == 'image':
